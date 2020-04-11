@@ -1,7 +1,7 @@
 
-rm(list=ls)
+remove(list = ls())
 
-setwd("C:/Users/andre/Desktop/CsiData/Inferencia-Estadistica-master/Enpecyt_2017-master")
+setwd("C:/Users/andre/Desktop/GitHub/CsiData-Notas/Inferencia-Estadistica-master/Enpecyt_2017-master")
 dir() # es para ver lo que hay en la carpeta 
 
 #install.packages("foreing")
@@ -22,16 +22,11 @@ head(cb1$FAC) #factor de expansión de cada individuo. La suma de FAC es el tota
 
 nivel_estudios <- tapply(cb1$FAC, cb1$S3P1,sum) #sumas mediante clasifiaciones. La suma de FAC clasificados por nivel de estudios
 
-
-names(nivel_estudios) <- c("Grado", "Absoluto") #cambiar el nombre a las columnas
-
 niveles_estudios <- c("Ninguno","Preescolar", "Primaria", "Secundaria", "Preparatoria", "Normal", "TSU", "Licenciatura", "Especialidad", "Maestría", "Doctorado")
-
-
-nivel_estudios$relativo <- nivel_estudios$Absoluto/sum(nivel_estudios$Absoluto) #crear una columna con un porcentaje
-
-
 nivel_estudios <- data.frame(niveles_estudios, nivel_estudios)
+names(nivel_estudios) <- c("Grado", "Absoluto") #cambiar el nombre a las columnas
+nivel_estudios$relativo <- nivel_estudios$Absoluto /sum(nivel_estudios$Absoluto) #crear una columna con un porcentaje
+
 view(nivel_estudios)
 
 
@@ -40,7 +35,7 @@ view(nivel_estudios)
 #GRAFICAS SEGUIMOS CON LA MISMA ENCUENTA
 
 #toma la grafica de nivel estudios y
-library(Rcmdr)
+
 x11()
 ggplot(data=nivel_estudios)+
   geom_col(mapping=aes(x= Grado, y= Absoluto, fill = Grado, alpha = 0.2 )) #alpha es para cambiar la transparencia de las graficas 
@@ -69,15 +64,10 @@ head(cb1$grupo)
 
 
 grupo_estudios <- tapply(cb1$FAC, cb1$grupo,sum)
-
 grupos_estudios <- c("Ninguno","Básico", "Medio superior", "Superior", "Posgrado")
-
 grupo_estudios <- data.frame(grupos_estudios, grupo_estudios)
-
 names(grupo_estudios)<- c("grado", "absoluto")
-
 grupo_estudios$relativo <- grupo_estudios$absoluto/sum(grupo_estudios$absoluto) #crear una columna con un porcentaje
-
 
 etiquetas_grupo<- paste(grupo_estudios$grado, round(100*grupo_estudios$realtivo))
 
